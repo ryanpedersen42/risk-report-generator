@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drata Risk Dashboard</title>
+  <style>
+    :root { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    body { margin: 24px; }
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
+    .muted { color: #666; font-size: 0.9rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+    th { background: #fafafa; position: sticky; top: 0; }
+    .tag { display: inline-block; padding: 2px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap: wrap; }
+    .controls { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 8px 0 16px; }
+    label { display:flex; flex-direction: column; gap:4px; font-size: 12px; color:#444; }
+    input[type="text"], select { padding: 6px 8px; border: 1px solid #ccc; border-radius: 8px; }
+    input[type="password"] { padding: 6px 8px; border: 1px solid #ccc; border-radius: 8px; }
+    select[multiple] { min-height: 140px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Risk Dashboard</h1>
+      <div class="muted">Source: /api/risks</div>
+    </div>
+    <div class="row">
+      <label><span>API Token (Bearer)</span>
+        <input id="apiTokenInput" type="password" placeholder="paste token…" />
+      </label>
+      <label><span>Fetch all pages</span><input type="checkbox" id="allPages" checked></label>
+      <label><span>Max pages</span><input type="text" id="maxPages" value="20"></label>
+      <label><span>Max records</span><input type="text" id="maxRecords" value="5000"></label>
+      <button id="refreshBtn">Refresh</button>
+      <button id="exportCsvBtn" title="Export the visible table to CSV">Export CSV</button>
+    </div>
+  </header>
+
+  <section id="summary" class="muted">Loading…</section>
+
+  <section class="controls">
+    <label>
+      <span>Sort by</span>
+      <select id="sortKey"></select>
+    </label>
+    <label>
+      <span>Direction</span>
+      <select id="sortDir">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </label>
+    <label>
+      <span>Filter custom field</span>
+      <select id="filterKey"></select>
+    </label>
+    <label>
+      <span>Filter value (contains)</span>
+      <input type="text" id="filterVal" placeholder="Type to filter…" />
+    </label>
+    <label>
+      <span>Show custom field columns (multi-select)</span>
+      <select id="cfColumns" multiple></select>
+    </label>
+  </section>
+
+  <table id="riskTable" aria-describedby="summary">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
